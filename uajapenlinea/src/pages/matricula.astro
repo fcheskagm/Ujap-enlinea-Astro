@@ -1,68 +1,280 @@
----
-// src/pages/matricula.astro
-const student = {
-  name: "CONTAJEZ NORA, FRANCISCO: AMENA",
-  program: "JEC INFORMALIZA DE COMPUTACION",
-  year: "2025/2026",
-  status: "ALUMNO REGULAR ACTIVO",
-  costo: "125.420 Bs",
-};
----
 
-<!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Matrícula - {student.name}</title>
-</head>
-<body>
-  <main>
-    <h1>Sede San Diego</h1>
-    <h2>{student.name}</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Matrícula - UJAP</title>
+    <link rel="stylesheet" href="/styles/matricula.css">
+  </head>
+  <body>
+    <div class="header">
+      <div class="logo" onclick="volverInicio()" style="cursor: pointer;">
+        <a href="/matricula">
+          <img src="/images/logo-ujap.png" alt="Logo UJAP" class="logo-img" />
+        </a>
+        <div>
+          <h1>Universidad José Antonio Páez</h1>
+          <p>J-30400858-9</p>
+        </div>
+        <div class="campus">
+        <h2> Sede San Diego</h2>
+      </div>
+      </div>
+      <button class="logout" onclick="localStorage.removeItem('logged'); location.href='/'">Salir</button>
+    </div>
+    </div>
+      
+      <div class="student-bar">
+        <p>Franchesca Karina Gonzalez Mora</p>
+      </div>
+      
+    </div>
 
-    <section>
-      <h3>Información personal</h3>
-      <ul>
-        <li><strong>Programa:</strong> {student.program}</li>
-        <li><strong>Año:</strong> {student.year}</li>
-        <li><strong>Estatus:</strong> {student.status}</li>
-      </ul>
-    </section>
+    <div class="main">
+      <aside class="sidebar">
+        <ul>
+          <li><strong>Ingreso</strong></li>
+          <li>Resumen del Alumno</li>
+          <li>Cambio de Carrera</li>
+          <li>Preinscripción</li>
+          <li>Inscripción Post_Grado</li>
+          <li>Retiro Académico</li>
+          <li>Normas y Reglamentos</li>
+          <li>Adición, Cambio, Retiro Administrativo</li>
+          <li>Nomenclatura</li>
+          <li>Documentos a Consignar</li>
+          <li>Actualizar Datos del Usuario</li>
+        </ul>
+      </aside>
 
-    <section>
-      <h3>Costos</h3>
-      <p>Importe: {student.costo} (tasa BCV 31/09/2025)</p>
-    </section>
+      <section class="dashboard" id="contenido-principal">
+        <div class="top-buttons">
+          <button>Notas Alumnos</button>
+          <button>Facturar Transferencia/Depósito</button>
+          <button>Registrar Pago</button>
+          <button>Situación Académica</button>
+          <button>Carnet Institucional</button>
+          <button>Inscripción</button>
+        </div>
 
-    <!-- Tabla de fechas (ejemplo simplificado) -->
-    <table border="1">
-      <tr>
-        <th>Concepto</th>
-        <th>Fecha</th>
-        <th>Estado</th>
-      </tr>
-      <tr>
-        <td>Inscripción</td>
-        <td>05/06/2025</td>
-        <td>Vencido</td>
-      </tr>
-    </table>
+        <div class="student-info">
+          <div class="student-photo-wrapper">
+            <img src="/images/foto-estudiante.png" alt="Foto del estudiante" class="student-photo" />
+          </div>
+          <div class="info">
+            <p><strong>Apellidos y Nombres:</strong> GONZALEZ MORA, FRANCHESCA KARINA</p>
+            <p><strong>Carrera:</strong> BIC INGENIERIA DE COMPUTACIÓN</p>
+            <p><strong>Periodo:</strong> 20252CR</p>
+            <p><strong>Cohorte:</strong> 56</p>
+            <p><strong>Estado Académico:</strong> ALUMNO REGULAR Activo</p>
+            <p><strong>Estatus Administrativo:</strong> Sin Beca</p>
+          </div>
+        </div>
 
-    <a href="/" class="button">Volver al inicio</a>
-  </main>
 
-  <style>
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      background: #0066cc;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
+        <div class="alert">
+          <p><strong style="color:red">No Tiene Orden de Inscripción aún, ya que es un ALUMNO REGULAR ACTIVO del 20252CR</strong></p>
+        </div>
+
+        <div class="cost-info">
+        <h3>Costos Vigentes - Período Lectivo 20253CR</h3>
+        <table class="cost-table">
+          <thead>
+            <tr>
+              <th>Unidades Inscritas</th>
+              <th>Inscripción</th>
+              <th>Servicio Estudiantil de Salud, Seguridad</th>
+              <th>Crédito<br>(Inscripción + Salud)</th>
+              <th>Semestre</th>
+              <th>Cuotas</th>
+              <th>c/Cuota</th>
+              <th>Contado<br>(Inscripción + Semestre + Salud)</th>
+              <th>UC Exceso</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>UC ≤ 5</td>
+              <td>187,0000</td>
+              <td>45,0000</td>
+              <td>232,0000</td>
+              <td>555,0000</td>
+              <td>5</td>
+              <td>111,0000</td>
+              <td>787,0000</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>6 &lt; UC ≤ 10</td>
+              <td>187,0000</td>
+              <td>45,0000</td>
+              <td>232,0000</td>
+              <td>666,0000</td>
+              <td>5</td>
+              <td>133,2000</td>
+              <td>898,0000</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td>UC &gt; 10</td>
+              <td>187,0000</td>
+              <td>45,0000</td>
+              <td>232,0000</td>
+              <td>925,0000</td>
+              <td>5</td>
+              <td>185,0000</td>
+              <td>1.157,0000</td>
+              <td>20,0000</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="rate-note">La tasa del día de hoy 01/08/2025 para los depósitos, pago web banco y/o transferencias, realizados el día de hoy es <strong>125,420 Bs</strong>, según la tasa oficial del BCV.</p>
+        <p class="cost-note">
+          El costo de la Inversión Matricular del Semestre/Trimestre, Inscripción, Preinscripción, Servicio Estudiantil de Salud Seguridad, Cuotas, Aranceles, Constancias y otros que aparece en las Tablas de Inversión de Pregrado/Postgrado y/o de Aranceles vigentes respectivamente, al igual en caso de pago fraccionado, se calculará en Bolívares Digitales, de acuerdo al valor vigente de la tasa oficial del BCV en la Fecha en que se realiza el último pago de los mismos.
+        </p>
+      </div>
+
+        <div class="tables">
+          <div class="cost-info">
+            <h3>Datos Administrativos</h3>
+
+            <div class="admin-data-grid">
+              <!-- Tabla de cuotas -->
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Descripción</th>
+                    <th>Giro</th>
+                    <th>Vencimiento</th>
+                    <th>Monto Bs.</th>
+                    <th>Fecha Pago</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="vencido">
+                    <td>Cuota</td>
+                    <td>1</td>
+                    <td>09/06/2025</td>
+                    <td>168,00</td>
+                    <td>21.070,56</td>
+                    <td class="estado-rojo">Vencido</td>
+                  </tr>
+                  <tr class="vencido">
+                    <td>Cuota</td>
+                    <td>2</td>
+                    <td>30/06/2025</td>
+                    <td>168,00</td>
+                    <td>21.070,56</td>
+                    <td class="estado-rojo">Vencido</td>
+                  </tr>
+                  <tr class="vencido">
+                    <td>Cuota</td>
+                    <td>3</td>
+                    <td>21/07/2025</td>
+                    <td>168,00</td>
+                    <td>21.070,56</td>
+                    <td class="estado-rojo">Vencido</td>
+                  </tr>
+                  <tr>
+                    <td>Cuota</td>
+                    <td>4</td>
+                    <td>11/08/2025</td>
+                    <td>168,00</td>
+                    <td>21.070,56</td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Cuota</td>
+                    <td>5</td>
+                    <td>01/09/2025</td>
+                    <td>168,00</td>
+                    <td>21.070,56</td>
+                    <td></td>
+                  </tr>
+                  <tr class="total-row">
+                    <td colspan="5" style="text-align: right; font-weight: bold;">Monto Cuotas Ajuste de Cuotas x Pagar (e):</td>
+                    <td>(105.352,80)</td>
+                  </tr>
+                  <tr class="total-row rojo">
+                    <td colspan="5" style="text-align: right; font-weight: bold;">Total Deuda (e+b+c-d):</td>
+                    <td>(105.352,80)</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Tabla lateral -->
+              <table class="admin-side-table">
+                <thead>
+                  <tr><th colspan="2">Giros Vencidos</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Saldo (a):</td>
+                    <td>63.211,68</td>
+                  </tr>
+                  <tr>
+                    <td>(b):</td>
+                    <td>0,00</td>
+                  </tr>
+                </tbody>
+                <thead>
+                  <tr><th colspan="2">Saldos</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Otras deudas (c):</td>
+                    <td>0,00</td>
+                  </tr>
+                  <tr>
+                    <td>Disponible (d):</td>
+                    <td>0,00</td>
+                  </tr>
+                  <tr class="total-row rojo">
+                    <td>Saldo al día de Hoy (a+b+c-d):</td>
+                    <td>(63.211,68)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="horario-info">
+              <p><strong>Horario de Caja durante la Inscripción</strong></p>
+              <p>Entrega de Tickets: 08:00 am a 04:30 pm</p>
+              <p>Atención al Estudiante: 08:00 am hasta que se atiendan a todos los que tengan Ticket del día</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <div id="vista-notas" style="display: none;">
+      <h2 style="color: red; font-size: 24px; font-weight: bold;">
+        INSOLVENTE,<br>
+        FAVOR PAGUE PARA VER SUS NOTAS. GRACIAS
+      </h2>
+    </div>
+    </div>
+    <script>
+    function mostrarMensaje() {
+      document.getElementById('contenido-principal').style.display = 'none';
+      document.getElementById('vista-notas').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    table {
-      margin: 20px 0;
+
+    function volverInicio() {
+      document.getElementById('contenido-principal').style.display = 'block';
+      document.getElementById('vista-notas').style.display = 'none';
     }
-  </style>
-</body>
+
+    // Conectar el botón de "Notas Alumnos"
+    document.addEventListener('DOMContentLoaded', () => {
+      const botones = document.querySelectorAll('.top-buttons button');
+      if (botones[0]) {
+        botones[0].addEventListener('click', mostrarMensaje);
+      }
+    });
+  </script>
+  </body>
+  
 </html>

@@ -1,36 +1,36 @@
----
-// src/pages/index.astro
-const title = "Pago de Matrícula";
-const subtitle = "Ahora + flexible";
----
 
-<!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{title}</title>
-</head>
-<body>
-  <main>
-    <h1>{title}</h1>
-    <h2>{subtitle}</h2>
-    <p>Por lo que esperamos la colaboración de tu pago puntual.</p>
-    <p>¡Apreciamos tu compromiso y responsabilidad!</p>
-    
-    <!-- Botón para redirigir a la página de detalles -->
-    <a href="/matricula" class="button">Ver mi matrícula</a>
-  </main>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio - UJAP</title>
+    <link rel="stylesheet" href="/styles/inicio.css">
+  </head>
+  <body>
+    <div class="header">
+		<div class="logo">
+			<img src="/images/logo-ujap.png" alt="Logo UJAP" class="logo-img" />
+			<h1>Universidad José Antonio Páez - Sede San Diego</h1>
+		</div>
+      <div class="nav-links">
+        <button>Estatus de alumno</button>
+        <button>Secciones cerradas</button>
+        <button>Solicitud de ingreso</button>
+        <button onclick="window.location.href='https://aulavirtual.ujap.edu.ve/'">Acrópolis</button>
+      </div>
+    </div>
 
-  <style>
-    .button {
-      display: inline-block;
-      padding: 10px 20px;
-      background: #0066cc;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-    }
-  </style>
-</body>
+    <form class="login-form" onsubmit="event.preventDefault(); window.location.href='/matricula';">
+      <input type="text" id="user" placeholder="Usuario" />
+      <input type="password" id="pass" placeholder="Contraseña" />
+      <button type="submit">Ingresar</button>
+    </form>
+
+    <div class="content info-box">
+		<p>El pago de tu matrícula:</p>
+		<h2>Ahora <span class="plus">+</span> flexible</h2>
+		<p>Por lo que esperamos la colaboración de tu pago puntual</p>
+		<p><em>¡Apreciamos tu compromiso y responsabilidad!</em></p>
+	</div>
+  </body>
 </html>
