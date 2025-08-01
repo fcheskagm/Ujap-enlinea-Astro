@@ -1,0 +1,68 @@
+---
+// src/pages/matricula.astro
+const student = {
+  name: "CONTAJEZ NORA, FRANCISCO: AMENA",
+  program: "JEC INFORMALIZA DE COMPUTACION",
+  year: "2025/2026",
+  status: "ALUMNO REGULAR ACTIVO",
+  costo: "125.420 Bs",
+};
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Matrícula - {student.name}</title>
+</head>
+<body>
+  <main>
+    <h1>Sede San Diego</h1>
+    <h2>{student.name}</h2>
+
+    <section>
+      <h3>Información personal</h3>
+      <ul>
+        <li><strong>Programa:</strong> {student.program}</li>
+        <li><strong>Año:</strong> {student.year}</li>
+        <li><strong>Estatus:</strong> {student.status}</li>
+      </ul>
+    </section>
+
+    <section>
+      <h3>Costos</h3>
+      <p>Importe: {student.costo} (tasa BCV 31/09/2025)</p>
+    </section>
+
+    <!-- Tabla de fechas (ejemplo simplificado) -->
+    <table border="1">
+      <tr>
+        <th>Concepto</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+      </tr>
+      <tr>
+        <td>Inscripción</td>
+        <td>05/06/2025</td>
+        <td>Vencido</td>
+      </tr>
+    </table>
+
+    <a href="/" class="button">Volver al inicio</a>
+  </main>
+
+  <style>
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #0066cc;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    table {
+      margin: 20px 0;
+    }
+  </style>
+</body>
+</html>
