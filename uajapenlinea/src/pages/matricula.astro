@@ -4,28 +4,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Matrícula - UJAP</title>
     <link rel="stylesheet" href="/styles/matricula.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   </head>
   <body>
+    <!-- Mantener todo el header y sidebar original -->
     <div class="header">
-      <div class="logo" onclick="volverInicio()" style="cursor: pointer;">
-        <a href="/matricula">
-          <img src="/images/logo-ujap.png" alt="Logo UJAP" class="logo-img" />
-        </a>
+      <div class="logo" onclick="mostrarVista('inicio')" style="cursor: pointer;">
+        <img src="/images/logo-ujap.png" alt="Logo UJAP" class="logo-img" />
         <div>
           <h1>Universidad José Antonio Páez</h1>
           <p>J-30400858-9</p>
         </div>
         <div class="campus">
-        <h2> Sede San Diego</h2>
-      </div>
+          <h2>Sede San Diego</h2>
+        </div>
       </div>
       <button class="logout" onclick="localStorage.removeItem('loggedUser'); location.href='/'">Salir</button>
     </div>
       
-      <div class="student-bar">
-        <p id="nombre-estudiante">Franchesca Karina Gonzalez Mora</p>
-      </div>
-      
+    <div class="student-bar">
+      <p id="nombre-estudiante">Franchesca Karina Gonzalez Mora</p>
     </div>
 
     <div class="main">
@@ -242,7 +241,7 @@
         </div>
       </section>
 
-      <!-- Vista de Resumen del Alumno (solo info personal) -->
+      <!-- Resumen del Alumno (solo info personal) -->
       <section class="dashboard" id="vista-resumen" style="display: none;">
         <div class="student-info">
           <div class="student-photo-wrapper">
@@ -259,33 +258,238 @@
         </div>
       </section>
 
-      <!-- Otras vistas (Notas, Pago, Horario, Carnet, Actualizar) -->
-      <div id="vista-notas" style="display: none;">
-        <h2 style="color: red; font-size: 24px; font-weight: bold;">
-          INSOLVENTE,<br>
-          FAVOR PAGUE PARA VER SUS NOTAS. GRACIAS
-        </h2>
-      </div>
+      <!-- Notas Alumno -->
+      <section class="dashboard" id="vista-notas" style="display: none;">
+        <h2>Notas Académicas</h2>
+        <table class="notas-table">
+          <thead>
+            <tr>
+              <th>Materia</th>
+              <th>1er Corte (25%)</th>
+              <th>2do Corte (25%)</th>
+              <th>3er Corte (25%)</th>
+              <th>4to Corte (25%)</th>
+              <th>Nota Final</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Control e Instrumentación</td>
+              <td>18</td>
+              <td>17</td>
+              <td>-</td>
+              <td>-</td>
+              <td>8.75</td>
+            </tr>
+            <tr>
+              <td>Comunicación de Datos</td>
+              <td>19</td>
+              <td>20</td>
+              <td>-</td>
+              <td>-</td>
+              <td>9.75</td>
+            </tr>
+            <tr>
+              <td>Estructuras Discretas II</td>
+              <td>20</td>
+              <td>20</td>
+              <td>-</td>
+              <td>-</td>
+              <td>10.00</td>
+            </tr>
+            <tr>
+              <td>Programación Matemática</td>
+              <td>17</td>
+              <td>18</td>
+              <td>-</td>
+              <td>-</td>
+              <td>8.75</td>
+            </tr>
+            <tr>
+              <td>Lenguaje de Programación</td>
+              <td>20</td>
+              <td>19</td>
+              <td>-</td>
+              <td>-</td>
+              <td>9.75</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-      <div id="vista-pago" style="display: none;">
+      <!-- Registrar Pago -->
+      <section class="dashboard" id="vista-pago" style="display: none;">
         <h2>Registrar Pago</h2>
-        <!-- Contenido del formulario de pago -->
-      </div>
+        <div class="cuotas-pendientes">
+          <h3>Cuotas Pendientes</h3>
+          <table class="pago-table">
+            <thead>
+              <tr>
+                <th>Descripción</th>
+                <th>Giro</th>
+                <th>Vencimiento</th>
+                <th>Monto Bs.</th>
+                <th>Estado</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-cuotas">
+              <!-- Las cuotas se llenarán dinámicamente -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="formulario-pago" id="formulario-pago" style="display: none;">
+          <h3>Pago con Tarjeta</h3>
+          <form id="pago-tarjeta-form">
+            <div class="form-group">
+              <label for="numero-tarjeta">Número de Tarjeta (16 dígitos):</label>
+              <input type="text" id="numero-tarjeta" pattern="\d{16}" required>
+            </div>
+            <div class="form-group">
+              <label for="nombre-tarjeta">Nombre en la Tarjeta:</label>
+              <input type="text" id="nombre-tarjeta" required>
+            </div>
+            <div class="form-group-row">
+              <div class="form-group">
+                <label for="fecha-expiracion">Fecha Expiración (MM/AA):</label>
+                <input type="text" id="fecha-expiracion" placeholder="MM/AA" pattern="(0[1-9]|1[0-2])\/\d{2}" required>
+              </div>
+              <div class="form-group">
+                <label for="cvv">CVV (3 dígitos):</label>
+                <input type="text" id="cvv" pattern="\d{3}" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="monto">Monto a Pagar:</label>
+              <input type="text" id="monto" readonly>
+            </div>
+            <button type="button" onclick="procesarPago()">Pagar</button>
+          </form>
+        </div>
+      </section>
 
-      <div id="vista-horario" style="display: none;">
+      <!-- Horario Personal -->
+      <section class="dashboard" id="vista-horario" style="display: none;">
         <h2>Horario Personal</h2>
-        <!-- Contenido del horario -->
-      </div>
+        <table class="horario-table">
+          <thead>
+            <tr>
+              <th>Hora</th>
+              <th>Lunes</th>
+              <th>Martes</th>
+              <th>Miércoles</th>
+              <th>Jueves</th>
+              <th>Viernes</th>
+              <th>Sábado</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>5:40 - 7:15</td>
+              <td>Control e Instrumentación</td>
+              <td></td>
+              <td>Estructuras Discretas II</td>
+              <td></td>
+              <td>Programación Matemática</td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>7:15 - 8:55</td>
+              <td>Comunicación de Datos</td>
+              <td>Comunicación de Datos</td>
+              <td></td>
+              <td>Estructuras Discretas II</td>
+              <td>Lenguaje de Programación</td>
+              <td>Lenguaje de Programación (7:00-8:30)</td>
+            </tr>
+            <tr>
+              <td>8:10 - 9:40</td>
+              <td></td>
+              <td></td>
+              <td>Control e Instrumentación</td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>1:30 - 3:05</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>Programación Matemática</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
 
-      <div id="vista-carnet" style="display: none;">
+      <!-- Carnet Institucional -->
+      <section class="dashboard" id="vista-carnet" style="display: none;">
         <h2>Carnet Institucional</h2>
-        <!-- Contenido del carnet -->
-      </div>
+        <div class="carnet-container" id="carnet-container">
+          <div class="carnet" style="background-image: url('/images/fondo-carnet.png');">
+            <div class="carnet-header">
+              <div class="logo-container">
+                <img src="/images/logo-ujap.png" alt="Logo UJAP" class="carnet-logo">
+              </div>
+              <h3>20252CR</h3>
+            </div>
+            <div class="carnet-body">
+              <div class="carnet-photo">
+                <img id="foto-carnet" src="/images/foto-estudiante1.png" alt="Foto del estudiante">
+              </div>
+              <div class="carnet-info">
+                <p class="carnet-nombre" id="carnet-apellidos">GONZALEZ MORA</p>
+                <p class="carnet-nombre" id="carnet-nombres">FRANCHESCA KARINA</p>
+                <p class="carnet-ci" id="carnet-ci">30.649.057</p>
+                <p class="carnet-tipo">ESTUDIANTE</p>
+              </div>
+            </div>
+            <div class="carnet-footer">
+              <div class="firma-line"></div>
+              <p class="carnet-vencimiento">Vence: Octubre 31, 2025</p>
+              <p class="carnet-firma">Firma Autorizada</p>
+            </div>
+            <div class="carnet-qr">
+              <img src="/images/qr-code.png" alt="Código QR">
+            </div>
+          </div>
+        </div>
+        <button onclick="descargarCarnet()" class="btn-descargar">Descargar Carnet</button>
+      </section>
 
-      <div id="vista-actualizar" style="display: none;">
+      <!-- Actualizar Datos -->
+      <section class="dashboard" id="vista-actualizar" style="display: none;">
         <h2>Actualizar Datos del Usuario</h2>
-        <!-- Contenido para actualizar datos -->
-      </div>
+        <form id="form-actualizar">
+          <div class="form-group">
+            <label for="clave-actual">Contraseña Actual:</label>
+            <input type="password" id="clave-actual" required>
+          </div>
+          <div class="form-group">
+            <label for="clave-nueva">Nueva Contraseña:</label>
+            <input type="password" id="clave-nueva" required oninput="validarClave(this.value)">
+            <div class="requisitos">
+              <p>La contraseña debe cumplir con:</p>
+              <ul>
+                <li id="req-longitud">Mínimo 8 caracteres</li>
+                <li id="req-mayuscula">1 letra mayúscula</li>
+                <li id="req-minuscula">1 letra minúscula</li>
+                <li id="req-numero">1 número</li>
+                <li id="req-simbolo">1 símbolo especial</li>
+                <li id="req-seguidas">No más de 4 letras seguidas</li>
+              </ul>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="confirmar-clave">Confirmar Nueva Contraseña:</label>
+            <input type="password" id="confirmar-clave" required>
+          </div>
+          <button type="button" onclick="actualizarClave()">Actualizar Contraseña</button>
+        </form>
+      </section>
     </div>
 
     <script>
@@ -295,24 +499,56 @@
           nombre: 'Franchesca Karina Gonzalez Mora',
           nombreCompleto: 'GONZALEZ MORA, FRANCHESCA KARINA',
           ci: '30.649.057',
-          foto: '/images/foto-estudiante1.png'
+          foto: '/images/foto-estudiante1.png',
+          carnet: {
+            apellidos: 'GONZALEZ MORA',
+            nombres: 'FRANCHESCA KARINA',
+            ci: '30.649.057',
+            periodo: '20252CR',
+            vencimiento: 'Octubre 31, 2025'
+          }
         },
         'gonzalezd22': {
           nombre: 'David Alfonso González Pérez',
           nombreCompleto: 'GONZALEZ PÉREZ, DAVID ALFONSO',
           ci: '31.022.273',
-          foto: '/images/foto-estudiante2.png'
+          foto: '/images/foto-estudiante2.png',
+          carnet: {
+            apellidos: 'GONZALEZ PEREZ',
+            nombres: 'DAVID ALFONSO',
+            ci: '31.022.273',
+            periodo: '20252CR',
+            vencimiento: 'Octubre 31, 2025'
+          }
         },
         'sanchezr22': {
           nombre: 'Rafael Alexander Sánchez Suárez',
           nombreCompleto: 'SÁNCHEZ SUÁREZ, RAFAEL ALEXANDER',
           ci: '29.847.441',
-          foto: '/images/foto-estudiante3.png'
+          foto: '/images/foto-estudiante3.png',
+          carnet: {
+            apellidos: 'SANCHEZ SUAREZ',
+            nombres: 'RAFAEL ALEXANDER',
+            ci: '29.847.441',
+            periodo: '20252CR',
+            vencimiento: 'Octubre 31, 2025'
+          }
         }
       };
 
+      // Cuotas pendientes
+      const cuotas = [
+        { descripcion: 'Cuota', giro: 1, vencimiento: '09/06/2025', monto: '168,00', estado: 'Vencido' },
+        { descripcion: 'Cuota', giro: 2, vencimiento: '30/06/2025', monto: '168,00', estado: 'Vencido' },
+        { descripcion: 'Cuota', giro: 3, vencimiento: '21/07/2025', monto: '168,00', estado: 'Vencido' },
+        { descripcion: 'Cuota', giro: 4, vencimiento: '11/08/2025', monto: '168,00', estado: 'Pendiente' },
+        { descripcion: 'Cuota', giro: 5, vencimiento: '01/09/2025', monto: '168,00', estado: 'Pendiente' }
+      ];
+
       // Función para mostrar vistas
       function mostrarVista(vista) {
+        console.log('Mostrando vista:', vista); // Para depuración
+        
         // Ocultar todas las vistas
         document.getElementById('contenido-principal').style.display = 'none';
         document.querySelectorAll('[id^="vista-"]').forEach(v => {
@@ -322,44 +558,256 @@
         // Mostrar la vista solicitada
         if (vista === 'inicio') {
           document.getElementById('contenido-principal').style.display = 'block';
-        } else {
+        } else if (document.getElementById(`vista-${vista}`)) {
           document.getElementById(`vista-${vista}`).style.display = 'block';
         }
       }
 
-      // Función para volver al inicio
-      function volverInicio() {
-        mostrarVista('inicio');
-      }
-
       // Función para descargar normas
       function descargarNormas() {
+        console.log('Descargando normas...'); // Para depuración
         alert('Descargando normas y reglamentos...');
-        // Simulación de descarga
         const link = document.createElement('a');
-        link.href = '#';
-        link.download = 'normas-y-reglamentos.pdf';
+        link.href = '/docs/normas.pdf';
+        link.download = 'normas-y-reglamentos-ujap.pdf';
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
       }
 
-      // Al cargar la página
-      document.addEventListener('DOMContentLoaded', () => {
+      // Función para seleccionar cuota
+      function seleccionarCuota(giro) {
+        const cuota = cuotas.find(c => c.giro === giro);
+        document.getElementById('monto').value = cuota.monto;
+        document.getElementById('formulario-pago').style.display = 'block';
+        window.scrollTo({ 
+          top: document.getElementById('formulario-pago').offsetTop, 
+          behavior: 'smooth' 
+        });
+      }
+
+      // Función para procesar pago
+      function procesarPago() {
+      const form = document.getElementById('pago-tarjeta-form');
+      if (form.checkValidity()) {
+        // Obtener el giro de la cuota que se está pagando
+        const giro = document.querySelector('#tabla-cuotas button:disabled')
+                    .parentElement.parentElement.querySelector('td:nth-child(2)').textContent;
+        
+        // Marcar como pagada en el array de cuotas
+        const cuotaIndex = cuotas.findIndex(c => c.giro === parseInt(giro));
+        cuotas[cuotaIndex].estado = 'Pagado';
+        
+        // Actualizar la tabla
+        actualizarTablaCuotas();
+        
+        // Ocultar formulario
+        document.getElementById('formulario-pago').style.display = 'none';
+        
+        alert('Pago procesado exitosamente');
+      } else {
+        alert('Por favor complete todos los campos correctamente');
+      }
+    }
+
+    function actualizarTablaCuotas() {
+      const tablaCuotas = document.getElementById('tabla-cuotas');
+      tablaCuotas.innerHTML = '';
+      
+      cuotas.forEach(cuota => {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+          <td>${cuota.descripcion}</td>
+          <td>${cuota.giro}</td>
+          <td>${cuota.vencimiento}</td>
+          <td>${cuota.monto}</td>
+          <td>${cuota.estado}</td>
+          <td>
+            <button onclick="seleccionarCuota(${cuota.giro})" 
+                    ${cuota.estado !== 'Pendiente' ? 'disabled' : ''}>
+              ${cuota.estado === 'Pagado' ? 'Pagado' : 'Pagar'}
+            </button>
+          </td>
+        `;
+        
+        if (cuota.estado === 'Vencido') {
+          fila.classList.add('vencido');
+        } else if (cuota.estado === 'Pagado') {
+          fila.classList.add('pagado');
+        }
+        
+        tablaCuotas.appendChild(fila);
+      });
+    }
+
+      // Función para descargar carnet
+      function descargarCarnet() {
+        const { jsPDF } = window.jspdf;
+        const element = document.getElementById('carnet-container');
+        
+        // Configurar opciones para html2canvas
+        const options = {
+          scale: 2, // Aumentar calidad
+          useCORS: true, // Permitir imágenes cruzadas
+          allowTaint: true, // Permitir imágenes externas
+          logging: true, // Para depuración
+          backgroundColor: null // Fondo transparente
+        };
+        
+        html2canvas(element, options).then(canvas => {
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF('p', 'mm', [85.6, 53.98]); // Tamaño de tarjeta de crédito
+          
+          // Ajustar la imagen al PDF
+          pdf.addImage(imgData, 'PNG', 0, 0, 85.6, 53.98);
+          pdf.save('carnet-ujap.pdf');
+        });
+      }
+
+      // Función para validar clave
+      function validarClave(clave) {
+        const tieneMayuscula = /[A-Z]/.test(clave);
+        const tieneMinuscula = /[a-z]/.test(clave);
+        const tieneNumero = /[0-9]/.test(clave);
+        const tieneSimbolo = /[^A-Za-z0-9]/.test(clave);
+        const longitudValida = clave.length >= 8;
+        const letrasSeguidas = !/([a-zA-Z]{5,})/.test(clave);
+        
+        // Actualizar visualización de requisitos
+        document.getElementById('req-mayuscula').style.color = tieneMayuscula ? 'green' : 'red';
+        document.getElementById('req-minuscula').style.color = tieneMinuscula ? 'green' : 'red';
+        document.getElementById('req-numero').style.color = tieneNumero ? 'green' : 'red';
+        document.getElementById('req-simbolo').style.color = tieneSimbolo ? 'green' : 'red';
+        document.getElementById('req-longitud').style.color = longitudValida ? 'green' : 'red';
+        document.getElementById('req-seguidas').style.color = letrasSeguidas ? 'green' : 'red';
+        
+        return tieneMayuscula && tieneMinuscula && tieneNumero && tieneSimbolo && longitudValida && letrasSeguidas;
+      }
+
+      // Función para actualizar clave
+      function actualizarClave() {
+        const claveActual = document.getElementById('clave-actual').value;
+        const claveNueva = document.getElementById('clave-nueva').value;
+        const confirmarClave = document.getElementById('confirmar-clave').value;
+        
+        if (claveNueva !== confirmarClave) {
+          alert('Las nuevas contraseñas no coinciden');
+          return;
+        }
+        
+        if (!validarClave(claveNueva)) {
+          alert('La nueva contraseña no cumple con los requisitos');
+          return;
+        }
+        
+        alert('Contraseña actualizada exitosamente (simulación)');
+        document.getElementById('form-actualizar').reset();
+      }
+
+      // Configurar eventos cuando el DOM esté completamente cargado
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM completamente cargado'); // Para depuración
+        
         const usuario = localStorage.getItem('loggedUser');
         
-        if (usuario && estudiantes[usuario]) {
-          const estudiante = estudiantes[usuario];
-          
-          // Actualizar información en todas las vistas
-          document.getElementById('nombre-estudiante').textContent = estudiante.nombre;
-          document.getElementById('nombre-completo').textContent = estudiante.nombreCompleto;
-          document.getElementById('nombre-completo-resumen').textContent = estudiante.nombreCompleto;
-          
-          // Actualizar foto
-          document.getElementById('foto-estudiante').src = estudiante.foto;
-          document.getElementById('foto-estudiante-resumen').src = estudiante.foto;
-        } else {
+        if (!usuario || !estudiantes[usuario]) {
           window.location.href = '/';
+          return;
         }
+
+        // Actualizar datos del estudiante
+       const estudiante = estudiantes[usuario];
+
+        // Actualizar foto del estudiante según el usuario
+        document.getElementById('foto-estudiante').src = estudiante.foto;
+        document.getElementById('foto-estudiante-resumen').src = estudiante.foto;
+        document.getElementById('foto-carnet').src = estudiante.foto;
+
+        // Actualizar datos del carnet específicamente
+        document.querySelectorAll('.carnet-nombre')[0].textContent = estudiante.carnet.apellidos;
+        document.querySelectorAll('.carnet-nombre')[1].textContent = estudiante.carnet.nombres;
+        document.querySelector('.carnet-ci').textContent = estudiante.ci;
+        document.querySelector('.carnet-tipo').textContent = 'ESTUDIANTE';
+        document.querySelector('.carnet-vencimiento').textContent = `Vence: ${estudiante.carnet.vencimiento}`;
+        document.querySelector('.carnet-header h3').textContent = estudiante.carnet.periodo;
+
+        document.getElementById('nombre-estudiante').textContent = estudiante.nombre;
+        document.getElementById('nombre-completo').textContent = estudiante.nombreCompleto;
+        document.getElementById('nombre-completo-resumen').textContent = estudiante.nombreCompleto;
+        document.getElementById('nombre-carnet').textContent = estudiante.carnet.nombre;
+        document.getElementById('ci-carnet').textContent = estudiante.carnet.ci;
+        
+        
+        // Llenar tabla de cuotas
+        const tablaCuotas = document.getElementById('tabla-cuotas');
+        if (tablaCuotas) {
+          tablaCuotas.innerHTML = '';
+          cuotas.forEach(cuota => {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `
+              <td>${cuota.descripcion}</td>
+              <td>${cuota.giro}</td>
+              <td>${cuota.vencimiento}</td>
+              <td>${cuota.monto}</td>
+              <td>${cuota.estado}</td>
+              <td><button onclick="seleccionarCuota(${cuota.giro})" ${cuota.estado !== 'Pendiente' ? 'disabled' : ''}>Pagar</button></td>
+            `;
+            if (cuota.estado === 'Vencido') {
+              fila.classList.add('vencido');
+            }
+            tablaCuotas.appendChild(fila);
+          });
+        }
+
+        // Configurar eventos de los botones del sidebar
+        document.querySelectorAll('.sidebar li').forEach(item => {
+          item.addEventListener('click', function() {
+            const texto = this.textContent.trim();
+            console.log('Botón clickeado:', texto); // Para depuración
+            
+            if (texto === 'Inicio') mostrarVista('inicio');
+            else if (texto === 'Resumen del Alumno') mostrarVista('resumen');
+            else if (texto === 'Normas y Reglamentos') descargarNormas();
+            else if (texto === 'Notas Alumno') mostrarVista('notas');
+            else if (texto === 'Registrar Pago') mostrarVista('pago');
+            else if (texto === 'Horario Personal') mostrarVista('horario');
+            else if (texto === 'Carnet Institucional') mostrarVista('carnet');
+            else if (texto === 'Actualizar Datos del Usuario') mostrarVista('actualizar');
+          });
+        });
+
+        // Configurar eventos de los botones superiores
+        document.querySelectorAll('.top-buttons button').forEach((btn, index) => {
+          btn.addEventListener('click', function() {
+            console.log('Botón superior clickeado:', index); // Para depuración
+            const acciones = [
+              () => mostrarVista('notas'),
+              () => mostrarVista('pago'),
+              () => mostrarVista('horario'),
+              () => mostrarVista('carnet'),
+              () => mostrarVista('actualizar')
+            ];
+            if (acciones[index]) acciones[index]();
+          });
+        });
+      });
+
+      // Hacer las funciones accesibles globalmente
+      window.mostrarVista = mostrarVista;
+      window.descargarNormas = descargarNormas;
+      window.seleccionarCuota = seleccionarCuota;
+      window.procesarPago = procesarPago;
+      window.descargarCarnet = descargarCarnet;
+      window.validarClave = validarClave;
+      window.actualizarClave = actualizarClave;
+      window.volverInicio = function() { mostrarVista('inicio'); };
+      // En el evento DOMContentLoaded
+      actualizarTablaCuotas();
+
+      // Configurar eventos del formulario de pago
+      document.getElementById('pago-tarjeta-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        procesarPago();
       });
     </script>
   </body>

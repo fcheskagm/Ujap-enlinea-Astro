@@ -548,3 +548,294 @@ th {
 .logo {
   cursor: pointer;
 }
+
+/* Estilos para las vistas */
+[id^="vista-"] {
+  display: none;
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+/* Vista de resumen del alumno */
+#vista-resumen .student-info {
+  margin: 0 auto;
+  max-width: 800px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+/* Estilos para tablas de notas y pagos */
+.notas-table, .pago-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.notas-table th, .notas-table td,
+.pago-table th, .pago-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.notas-table th, .pago-table th {
+  background-color: #004080;
+  color: white;
+}
+
+/* Formulario de pago */
+.formulario-pago {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.form-group-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-group-row .form-group {
+  flex: 1;
+}
+
+/* Horario */
+.horario-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.horario-table th, .horario-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+.horario-table th {
+  background-color: #004080;
+  color: white;
+}
+
+/* Carnet institucional */
+.carnet {
+  position: relative;
+  width: 300px;
+  height: 450px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 15px;
+  overflow: hidden;
+  color: #000;
+  font-family: Arial, sans-serif;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.logo-container {
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.carnet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.carnet-header img {
+  height: 40px;
+}
+
+.carnet-header h3 {
+  font-size: 18px;
+  margin: 0;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.carnet-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.carnet-photo {
+  width: 100px;
+  height: 120px;
+  border: 2px solid #fff;
+  background-color: white;
+  align-self: center; /* Centrar la foto */
+}
+
+.carnet-footer {
+  margin-top: 20px;
+  padding-top: 10px;
+  position: relative;
+}
+
+.firma-line {
+  border-top: 1px solid #000;
+  width: 80%;
+  margin: 0 auto 10px;
+}
+
+.carnet-photo img {
+  width: 96px;
+  height: 116px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.carnet-info {
+  flex-grow: 1;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+  width: auto;
+  max-width: 150px;
+  margin-top: 10px;
+}
+
+.carnet-nombre {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 5px 0;
+  line-height: 1.1;
+}
+
+.carnet-ci {
+  font-size: 14px;
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.carnet-tipo {
+  font-size: 14px;
+  margin: 5px 0;
+  font-weight: bold;
+}
+
+.carnet-footer {
+  margin-top: auto;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.firma-line {
+  border-top: 1px solid #000;
+  width: 80%;
+  margin: 10px auto;
+}
+
+.carnet-vencimiento {
+  font-size: 12px;
+  margin: 5px 0;
+}
+
+.carnet-firma {
+  font-size: 10px;
+  margin: 5px 0;
+}
+
+.carnet-qr {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: white;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.carnet-qr img {
+  width: 60px;
+  height: 60px;
+}
+
+.btn-descargar {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #004080;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+/* Actualizar datos */
+.requisitos {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}
+
+.requisitos ul {
+  margin: 5px 0 0 20px;
+  padding: 0;
+}
+
+.requisitos li {
+  font-size: 14px;
+}
+.pago-table .vencido td {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.pago-table .pagado td {
+  color: #388e3c;
+  font-weight: bold;
+}
+
+.pago-table button {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.pago-table button:disabled {
+  background-color: #e0e0e0;
+  color: #9e9e9e;
+  cursor: not-allowed;
+}
+
+.pago-table button:not(:disabled) {
+  background-color: #4caf50;
+  color: white;
+}
