@@ -1,4 +1,3 @@
-
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -20,12 +19,11 @@
         <h2> Sede San Diego</h2>
       </div>
       </div>
-      <button class="logout" onclick="localStorage.removeItem('logged'); location.href='/'">Salir</button>
-    </div>
+      <button class="logout" onclick="localStorage.removeItem('loggedUser'); location.href='/'">Salir</button>
     </div>
       
       <div class="student-bar">
-        <p>Franchesca Karina Gonzalez Mora</p>
+        <p id="nombre-estudiante">Franchesca Karina Gonzalez Mora</p>
       </div>
       
     </div>
@@ -33,36 +31,34 @@
     <div class="main">
       <aside class="sidebar">
         <ul>
-          <li><strong>Ingreso</strong></li>
-          <li>Resumen del Alumno</li>
-          <li>Cambio de Carrera</li>
-          <li>Preinscripción</li>
-          <li>Inscripción Post_Grado</li>
-          <li>Retiro Académico</li>
-          <li>Normas y Reglamentos</li>
-          <li>Adición, Cambio, Retiro Administrativo</li>
-          <li>Nomenclatura</li>
-          <li>Documentos a Consignar</li>
-          <li>Actualizar Datos del Usuario</li>
+          <li onclick="mostrarVista('inicio')"><strong>Inicio</strong></li>
+          <li onclick="mostrarVista('resumen')">Resumen del Alumno</li>
+          <li onclick="descargarNormas()">Normas y Reglamentos</li>
+          <li onclick="mostrarVista('notas')">Notas Alumno</li>
+          <li onclick="mostrarVista('pago')">Registrar Pago</li>
+          <li onclick="mostrarVista('horario')">Horario Personal</li>
+          <li onclick="mostrarVista('carnet')">Carnet Institucional</li>
+          <li onclick="mostrarVista('actualizar')">Actualizar Datos del Usuario</li>
         </ul>
       </aside>
 
+      <!-- Vista Principal (Inicio) -->
       <section class="dashboard" id="contenido-principal">
+        <!-- Todo el contenido original de matricula.astro -->
         <div class="top-buttons">
-          <button>Notas Alumnos</button>
-          <button>Facturar Transferencia/Depósito</button>
-          <button>Registrar Pago</button>
-          <button>Situación Académica</button>
-          <button>Carnet Institucional</button>
-          <button>Inscripción</button>
+          <button onclick="mostrarVista('notas')">Notas Alumno</button>
+          <button onclick="mostrarVista('pago')">Registrar Pago</button>
+          <button onclick="mostrarVista('horario')">Horario Personal</button>
+          <button onclick="mostrarVista('carnet')">Carnet Institucional</button>
+          <button onclick="mostrarVista('actualizar')">Actualizar Datos del Usuario</button>
         </div>
 
         <div class="student-info">
           <div class="student-photo-wrapper">
-            <img src="/images/foto-estudiante.png" alt="Foto del estudiante" class="student-photo" />
+            <img id="foto-estudiante" src="/images/foto-estudiante.png" alt="Foto del estudiante" class="student-photo" />
           </div>
           <div class="info">
-            <p><strong>Apellidos y Nombres:</strong> GONZALEZ MORA, FRANCHESCA KARINA</p>
+            <p><strong>Apellidos y Nombres:</strong> <span id="nombre-completo">GONZALEZ MORA, FRANCHESCA KARINA</span></p>
             <p><strong>Carrera:</strong> BIC INGENIERIA DE COMPUTACIÓN</p>
             <p><strong>Periodo:</strong> 20252CR</p>
             <p><strong>Cohorte:</strong> 56</p>
@@ -70,7 +66,6 @@
             <p><strong>Estatus Administrativo:</strong> Sin Beca</p>
           </div>
         </div>
-
 
         <div class="alert">
           <p><strong style="color:red">No Tiene Orden de Inscripción aún, ya que es un ALUMNO REGULAR ACTIVO del 20252CR</strong></p>
@@ -244,37 +239,128 @@
               <p>Atención al Estudiante: 08:00 am hasta que se atiendan a todos los que tengan Ticket del día</p>
             </div>
           </div>
-
         </div>
       </section>
 
+      <!-- Vista de Resumen del Alumno (solo info personal) -->
+      <section class="dashboard" id="vista-resumen" style="display: none;">
+        <div class="student-info">
+          <div class="student-photo-wrapper">
+            <img id="foto-estudiante-resumen" src="/images/foto-estudiante.png" alt="Foto del estudiante" class="student-photo" />
+          </div>
+          <div class="info">
+            <p><strong>Apellidos y Nombres:</strong> <span id="nombre-completo-resumen">GONZALEZ MORA, FRANCHESCA KARINA</span></p>
+            <p><strong>Carrera:</strong> BIC INGENIERIA DE COMPUTACIÓN</p>
+            <p><strong>Periodo:</strong> 20252CR</p>
+            <p><strong>Cohorte:</strong> 56</p>
+            <p><strong>Estado Académico:</strong> ALUMNO REGULAR Activo</p>
+            <p><strong>Estatus Administrativo:</strong> Sin Beca</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Otras vistas (Notas, Pago, Horario, Carnet, Actualizar) -->
       <div id="vista-notas" style="display: none;">
-      <h2 style="color: red; font-size: 24px; font-weight: bold;">
-        INSOLVENTE,<br>
-        FAVOR PAGUE PARA VER SUS NOTAS. GRACIAS
-      </h2>
+        <h2 style="color: red; font-size: 24px; font-weight: bold;">
+          INSOLVENTE,<br>
+          FAVOR PAGUE PARA VER SUS NOTAS. GRACIAS
+        </h2>
+      </div>
+
+      <div id="vista-pago" style="display: none;">
+        <h2>Registrar Pago</h2>
+        <!-- Contenido del formulario de pago -->
+      </div>
+
+      <div id="vista-horario" style="display: none;">
+        <h2>Horario Personal</h2>
+        <!-- Contenido del horario -->
+      </div>
+
+      <div id="vista-carnet" style="display: none;">
+        <h2>Carnet Institucional</h2>
+        <!-- Contenido del carnet -->
+      </div>
+
+      <div id="vista-actualizar" style="display: none;">
+        <h2>Actualizar Datos del Usuario</h2>
+        <!-- Contenido para actualizar datos -->
+      </div>
     </div>
-    </div>
+
     <script>
-    function mostrarMensaje() {
-      document.getElementById('contenido-principal').style.display = 'none';
-      document.getElementById('vista-notas').style.display = 'block';
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+      // Datos de los estudiantes
+      const estudiantes = {
+        'gonzalezf21': {
+          nombre: 'Franchesca Karina Gonzalez Mora',
+          nombreCompleto: 'GONZALEZ MORA, FRANCHESCA KARINA',
+          ci: '30.649.057',
+          foto: '/images/foto-estudiante1.png'
+        },
+        'gonzalezd22': {
+          nombre: 'David Alfonso González Pérez',
+          nombreCompleto: 'GONZALEZ PÉREZ, DAVID ALFONSO',
+          ci: '31.022.273',
+          foto: '/images/foto-estudiante2.png'
+        },
+        'sanchezr22': {
+          nombre: 'Rafael Alexander Sánchez Suárez',
+          nombreCompleto: 'SÁNCHEZ SUÁREZ, RAFAEL ALEXANDER',
+          ci: '29.847.441',
+          foto: '/images/foto-estudiante3.png'
+        }
+      };
 
-    function volverInicio() {
-      document.getElementById('contenido-principal').style.display = 'block';
-      document.getElementById('vista-notas').style.display = 'none';
-    }
-
-    // Conectar el botón de "Notas Alumnos"
-    document.addEventListener('DOMContentLoaded', () => {
-      const botones = document.querySelectorAll('.top-buttons button');
-      if (botones[0]) {
-        botones[0].addEventListener('click', mostrarMensaje);
+      // Función para mostrar vistas
+      function mostrarVista(vista) {
+        // Ocultar todas las vistas
+        document.getElementById('contenido-principal').style.display = 'none';
+        document.querySelectorAll('[id^="vista-"]').forEach(v => {
+          v.style.display = 'none';
+        });
+        
+        // Mostrar la vista solicitada
+        if (vista === 'inicio') {
+          document.getElementById('contenido-principal').style.display = 'block';
+        } else {
+          document.getElementById(`vista-${vista}`).style.display = 'block';
+        }
       }
-    });
-  </script>
+
+      // Función para volver al inicio
+      function volverInicio() {
+        mostrarVista('inicio');
+      }
+
+      // Función para descargar normas
+      function descargarNormas() {
+        alert('Descargando normas y reglamentos...');
+        // Simulación de descarga
+        const link = document.createElement('a');
+        link.href = '#';
+        link.download = 'normas-y-reglamentos.pdf';
+        link.click();
+      }
+
+      // Al cargar la página
+      document.addEventListener('DOMContentLoaded', () => {
+        const usuario = localStorage.getItem('loggedUser');
+        
+        if (usuario && estudiantes[usuario]) {
+          const estudiante = estudiantes[usuario];
+          
+          // Actualizar información en todas las vistas
+          document.getElementById('nombre-estudiante').textContent = estudiante.nombre;
+          document.getElementById('nombre-completo').textContent = estudiante.nombreCompleto;
+          document.getElementById('nombre-completo-resumen').textContent = estudiante.nombreCompleto;
+          
+          // Actualizar foto
+          document.getElementById('foto-estudiante').src = estudiante.foto;
+          document.getElementById('foto-estudiante-resumen').src = estudiante.foto;
+        } else {
+          window.location.href = '/';
+        }
+      });
+    </script>
   </body>
-  
 </html>

@@ -1,4 +1,3 @@
-
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -8,10 +7,10 @@
   </head>
   <body>
     <div class="header">
-		<div class="logo">
-			<img src="/images/logo-ujap.png" alt="Logo UJAP" class="logo-img" />
-			<h1>Universidad José Antonio Páez - Sede San Diego</h1>
-		</div>
+      <div class="logo">
+        <img src="/images/logo-ujap.png" alt="Logo UJAP" class="logo-img" />
+        <h1>Universidad José Antonio Páez - Sede San Diego</h1>
+      </div>
       <div class="nav-links">
         <button>Estatus de alumno</button>
         <button>Secciones cerradas</button>
@@ -20,17 +19,44 @@
       </div>
     </div>
 
-    <form class="login-form" onsubmit="event.preventDefault(); window.location.href='/matricula';">
-      <input type="text" id="user" placeholder="Usuario" />
-      <input type="password" id="pass" placeholder="Contraseña" />
+    <form class="login-form" id="loginForm">
+      <input type="text" id="user" placeholder="Usuario" required />
+      <input type="password" id="pass" placeholder="Contraseña" required />
       <button type="submit">Ingresar</button>
     </form>
 
     <div class="content info-box">
-		<p>El pago de tu matrícula:</p>
-		<h2>Ahora <span class="plus">+</span> flexible</h2>
-		<p>Por lo que esperamos la colaboración de tu pago puntual</p>
-		<p><em>¡Apreciamos tu compromiso y responsabilidad!</em></p>
-	</div>
+      <p>El pago de tu matrícula:</p>
+      <h2>Ahora <span class="plus">+</span> flexible</h2>
+      <p>Por lo que esperamos la colaboración de tu pago puntual</p>
+      <p><em>¡Apreciamos tu compromiso y responsabilidad!</em></p>
+    </div>
+
+    <script>
+      // Datos de usuarios válidos
+      const usuariosValidos = {
+        'gonzalezf21': { clave: 'Che08Gon07' },
+        'gonzalezd22': { clave: 'Dad01Gon02' },
+        'sanchezr22': { clave: 'Raf01San02' }
+      };
+
+      // Manejar el envío del formulario
+      document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const usuario = document.getElementById('user').value.trim();
+        const clave = document.getElementById('pass').value;
+        
+        // Validar credenciales
+        if (usuariosValidos[usuario] && usuariosValidos[usuario].clave === clave) {
+          // Guardar en localStorage y redirigir
+          localStorage.setItem('loggedUser', usuario);
+          window.location.href = '/matricula';
+        } else {
+          alert('Usuario o contraseña incorrectos');
+          document.getElementById('pass').value = '';
+        }
+      });
+    </script>
   </body>
 </html>
